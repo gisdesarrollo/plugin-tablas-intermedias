@@ -8,11 +8,11 @@ public interface ICabeceroService {
 
 	public Cabecero findByDoc(int doc);
 
-	public List<Cabecero> findCAByStatus();
+	public List<Cabecero> findCAByStatus(String tax);
 	
 	public void save(Cabecero cabecero);
 
-	public void updatEstatusByDoc(String estatus,int doc);
+	public void updatEstatusByDoc(String estatus,int doc,String dct,String tax);
 	
-	public void updateDescByDoc(String descripcion,int doc);
+	public void updateDescByDoc(String descripcion,int doc,String dct,String tax);
 }

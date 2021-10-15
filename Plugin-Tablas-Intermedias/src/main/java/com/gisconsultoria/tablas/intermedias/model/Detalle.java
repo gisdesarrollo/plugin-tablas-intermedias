@@ -21,191 +21,192 @@ public class Detalle implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private String TAX;
+	private String FETAX;
 	
 	@Id
-	private int DOC;
+	private int FEDOC;
 	
 	@Id
-	private String DCT;
+	private String FEDCT;
 	
 	@Id
-	private int LNID;
+	private int FELNID;
 	
-	private String MCU;
+	private String FEMCU;
 	
-	private String STST;
+	@Column(name ="FESTST")
+	private String FESTST;
 	
-	private String KCOO;
+	private String FEKCOO;
 	
-	private int DOCO;
+	private int FEDOCO;
 	
-	private String DCTO;
+	private String FEDCTO;
 	
-	private String DLFE;
+	private String FEDLFE;
 	
-	private int URAB;
+	private int FEURAB;
 	
-	private int URAT;
+	private int FEURAT;
 	
-	@Column(name ="`DESC`")
-	private String DESC;
+	@Column(name ="`FEDESC`")
+	private String FEDESC;
 	
-	@Column(name ="`USER`")
-	private String USER;
+	@Column(name ="`FEUSER`")
+	private String FEUSER;
 	
-	private String JOBN;
+	private String FEJOBN;
 	
-	private String PID;
+	private String FEPID;
 	
-	private int UPMJ;
+	private int FEUPMJ;
 	
-	private int UPMT;
+	private int FEUPMT;
 
-	public String getTAX() {
-		return TAX;
+	public String getFETAX() {
+		return FETAX;
 	}
 
-	public void setTAX(String tAX) {
-		TAX = tAX;
+	public void setFETAX(String fETAX) {
+		FETAX = fETAX;
 	}
 
-	public int getDOC() {
-		return DOC;
+	public int getFEDOC() {
+		return FEDOC;
 	}
 
-	public void setDOC(int dOC) {
-		DOC = dOC;
+	public void setFEDOC(int fEDOC) {
+		FEDOC = fEDOC;
 	}
 
-	public String getDCT() {
-		return DCT;
+	public String getFEDCT() {
+		return FEDCT;
 	}
 
-	public void setDCT(String dCT) {
-		DCT = dCT;
+	public void setFEDCT(String fEDCT) {
+		FEDCT = fEDCT;
 	}
 
-	public int getLNID() {
-		return LNID;
+	public int getFELNID() {
+		return FELNID;
 	}
 
-	public void setLNID(int lNID) {
-		LNID = lNID;
+	public void setFELNID(int fELNID) {
+		FELNID = fELNID;
 	}
 
-	public String getMCU() {
-		return MCU;
+	public String getFEMCU() {
+		return FEMCU;
 	}
 
-	public void setMCU(String mCU) {
-		MCU = mCU;
+	public void setFEMCU(String fEMCU) {
+		FEMCU = fEMCU;
 	}
 
-	public String getSTST() {
-		return STST;
+	public String getFESTST() {
+		return FESTST;
 	}
 
-	public void setSTST(String sTST) {
-		STST = sTST;
+	public void setFESTST(String fESTST) {
+		FESTST = fESTST;
 	}
 
-	public String getKCOO() {
-		return KCOO;
+	public String getFEKCOO() {
+		return FEKCOO;
 	}
 
-	public void setKCOO(String kCOO) {
-		KCOO = kCOO;
+	public void setFEKCOO(String fEKCOO) {
+		FEKCOO = fEKCOO;
 	}
 
-	public int getDOCO() {
-		return DOCO;
+	public int getFEDOCO() {
+		return FEDOCO;
 	}
 
-	public void setDOCO(int dOCO) {
-		DOCO = dOCO;
+	public void setFEDOCO(int fEDOCO) {
+		FEDOCO = fEDOCO;
 	}
 
-	public String getDCTO() {
-		return DCTO;
+	public String getFEDCTO() {
+		return FEDCTO;
 	}
 
-	public void setDCTO(String dCTO) {
-		DCTO = dCTO;
+	public void setFEDCTO(String fEDCTO) {
+		FEDCTO = fEDCTO;
 	}
 
-	public String getDLFE() {
-		return DLFE;
+	public String getFEDLFE() {
+		return FEDLFE;
 	}
 
-	public void setDLFE(String dLFE) {
-		DLFE = dLFE;
+	public void setFEDLFE(String fEDLFE) {
+		FEDLFE = fEDLFE;
 	}
 
-	public int getURAB() {
-		return URAB;
+	public int getFEURAB() {
+		return FEURAB;
 	}
 
-	public void setURAB(int uRAB) {
-		URAB = uRAB;
+	public void setFEURAB(int fEURAB) {
+		FEURAB = fEURAB;
 	}
 
-	public int getURAT() {
-		return URAT;
+	public int getFEURAT() {
+		return FEURAT;
 	}
 
-	public void setURAT(int uRAT) {
-		URAT = uRAT;
+	public void setFEURAT(int fEURAT) {
+		FEURAT = fEURAT;
 	}
 
-	public String getDESC() {
-		return DESC;
+	public String getFEDESC() {
+		return FEDESC;
 	}
 
-	public void setDESC(String dESC) {
-		DESC = dESC;
+	public void setFEDESC(String fEDESC) {
+		FEDESC = fEDESC;
 	}
 
-	public String getUSER() {
-		return USER;
+	public String getFEUSER() {
+		return FEUSER;
 	}
 
-	public void setUSER(String uSER) {
-		USER = uSER;
+	public void setFEUSER(String fEUSER) {
+		FEUSER = fEUSER;
 	}
 
-	public String getJOBN() {
-		return JOBN;
+	public String getFEJOBN() {
+		return FEJOBN;
 	}
 
-	public void setJOBN(String jOBN) {
-		JOBN = jOBN;
+	public void setFEJOBN(String fEJOBN) {
+		FEJOBN = fEJOBN;
 	}
 
-	public String getPID() {
-		return PID;
+	public String getFEPID() {
+		return FEPID;
 	}
 
-	public void setPID(String pID) {
-		PID = pID;
+	public void setFEPID(String fEPID) {
+		FEPID = fEPID;
 	}
 
-	public int getUPMJ() {
-		return UPMJ;
+	public int getFEUPMJ() {
+		return FEUPMJ;
 	}
 
-	public void setUPMJ(int uPMJ) {
-		UPMJ = uPMJ;
+	public void setFEUPMJ(int fEUPMJ) {
+		FEUPMJ = fEUPMJ;
 	}
 
-	public int getUPMT() {
-		return UPMT;
+	public int getFEUPMT() {
+		return FEUPMT;
 	}
 
-	public void setUPMT(int uPMT) {
-		UPMT = uPMT;
+	public void setFEUPMT(int fEUPMT) {
+		FEUPMT = fEUPMT;
 	}
-	
-	
+
+		
 	
 }

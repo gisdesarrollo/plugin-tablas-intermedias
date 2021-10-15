@@ -16,12 +16,12 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.gisconsultoria.tablas.intermedias.config.JpaConfig;
 import com.gisconsultoria.tablas.intermedias.model.Cabecero;
 import com.gisconsultoria.tablas.intermedias.model.json.PropertiesConf;
 import com.gisconsultoria.tablas.intermedias.model.json.ResponseSuccessful;
@@ -30,22 +30,13 @@ import com.gisconsultoria.tablas.intermedias.service.ICabeceroService;
 @Service
 public class GetCfdiGenerados implements IGetCfdiGenerados {
 
-	private static final Logger LOG = LoggerFactory.getLogger(GetCfdiGenerados.class);
-
-	//@Value("${url.servidor.xsa}")
-	//private String urlServidorXsa;
-
-	//@Value("${api.key.xsa}")
-	//private String keyXsa;
+	protected final Logger LOG = Logger.getLogger(GetCfdiGenerados.class.getName());
 
 	@Value("${url.api.xsa.descarga}")
 	private String urlAPiDescarga;
 
 	@Value("${port.servidor.xsa}")
 	private String portXsa;
-
-	@Value("${path.download.files}")
-	private String pathArchivos;
 
 	@Autowired
 	private ICabeceroService cabeceroService;
@@ -56,14 +47,20 @@ public class GetCfdiGenerados implements IGetCfdiGenerados {
 		File zip = null;
 		URL url = null;
 		String filename = null;
-
+		String path;
+		
 		try {
 			// get path
-			String path = getPath(pathArchivos, doc,tax);
+			
+			
 			if (tipoDoc == "XML") {
 				url = new URL("https://"+data.getXSA().getServer().concat(":" + portXsa).concat(response.getXmlDownload()));
+				String pathXml = getPath(data.getOperacion().getPathDescargaXML(), doc,tax);
+				path = pathXml;
 			} else {
 				url = new URL("https://"+data.getXSA().getServer().concat(":" + portXsa).concat(response.getPdfDownload()));
+				String pathPdf = getPath(data.getOperacion().getPathDescargaPDF(), doc,tax);
+				path = pathPdf;
 			}
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
@@ -74,9 +71,9 @@ public class GetCfdiGenerados implements IGetCfdiGenerados {
 
 			if (filename == null) {
 				filename = path
-						.concat("\\"+response.getSerie() + "-" + response.getFolio().concat("." + tipoDoc.toLowerCase()));
+						.concat(File.separator+response.getSerie() + "-" + response.getFolio().concat("." + tipoDoc.toLowerCase()));
 			} else {
-				filename = path.concat("\\"+filename);
+				filename = path.concat(File.separator+filename);
 			}
 			LOG.info("Descargando archivo: " + filename);
 			InputStream is = conn.getInputStream();
@@ -106,6 +103,7 @@ public class GetCfdiGenerados implements IGetCfdiGenerados {
 		try {
 			if (!pathFile.exists()) {
 				if (!buildDirectory(pathFile)) {
+					LOG.error("No se puede crear el directorio: "+path);
 					throw new IOException("No se puede crear el directorio: " + path);
 				}
 			}
@@ -144,12 +142,15 @@ public class GetCfdiGenerados implements IGetCfdiGenerados {
 		String pathCompleto = null;
 		try {
 			if(tax!=null) {
-				pathCompleto = path.concat(tax);
-				isExistPath(pathCompleto);
+				//pathCompleto = path.concat(File.separator+tax);
+				pathCompleto=path;
+				//isExistPath(pathCompleto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return pathCompleto;
 	}
+	
+	
 }

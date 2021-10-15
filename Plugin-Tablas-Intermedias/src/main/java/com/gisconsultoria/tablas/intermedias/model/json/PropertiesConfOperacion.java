@@ -7,24 +7,40 @@ public class PropertiesConfOperacion {
 		@JsonProperty
 		private String Descarga;
 		@JsonProperty
-		private String PathDescarga;
+		private String PathDescargaXML;
+		@JsonProperty
+		private String PathDescargaPDF;
 		
 		public PropertiesConfOperacion() {}
-		public PropertiesConfOperacion(String Descarga, String PathDescarga) {
-			this.Descarga = Descarga;
-			this.PathDescarga = PathDescarga;
+
+		public PropertiesConfOperacion(String descarga, String pathDescargaXML, String pathDescargaPDF) {
+			Descarga = descarga;
+			PathDescargaXML = pathDescargaXML;
+			PathDescargaPDF = pathDescargaPDF;
 		}
+
 		public String getDescarga() {
 			return Descarga;
 		}
+
 		public void setDescarga(String descarga) {
-			this.Descarga = descarga;
+			Descarga = descarga;
 		}
-		public String getPathDescarga() {
-			return PathDescarga;
+
+		public String getPathDescargaXML() {
+			return PathDescargaXML;
 		}
-		public void setPathDescarga(String pathDescarga) {
-			this.PathDescarga = pathDescarga;
+
+		public void setPathDescargaXML(String pathDescargaXML) {
+			PathDescargaXML = pathDescargaXML;
+		}
+
+		public String getPathDescargaPDF() {
+			return PathDescargaPDF;
+		}
+
+		public void setPathDescargaPDF(String pathDescargaPDF) {
+			PathDescargaPDF = pathDescargaPDF;
 		}
 		
 }

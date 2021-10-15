@@ -1,6 +1,7 @@
 package com.gisconsultoria.tablas.intermedias.services;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,43 +9,36 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gisconsultoria.tablas.intermedias.config.JpaConfig;
 import com.gisconsultoria.tablas.intermedias.model.Detalle;
 import com.gisconsultoria.tablas.intermedias.model.json.PropertiesConf;
 import com.gisconsultoria.tablas.intermedias.model.json.ResponseSuccessful;
 import com.gisconsultoria.tablas.intermedias.service.ICabeceroService;
 import com.gisconsultoria.tablas.intermedias.service.IDetalleService;
 
+
+
 @Service
 public class ConnectXsa implements IConnectXsa {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ConnectXsa.class);
+	protected final Logger LOG = Logger.getLogger(ConnectXsa.class.getName());
 
-	// @Value("${xsa.id.cfd}")
-	// private String idCfd;
-
-	// @Value("${xsa.id.sucursal}")
-	// private String idSucursal;
-
-	// @Value("${url.servidor.xsa}")
-	// private String urlServidorXsa;
-
-	// @Value("${api.key.xsa}")
-	// private String keyXsa;
-
+	
 	@Value("${url.api.xsa.generacion.cfdi}")
 	private String urlAPiXsa;
 
@@ -61,7 +55,7 @@ public class ConnectXsa implements IConnectXsa {
 	private IGetCfdiGenerados cfdiGenerados;
 
 	@Override
-	public void connectApiXsaGeneraCFDI(int doc, String tax) {
+	public void connectApiXsaGeneraCFDI(int doc, String tax,String dct,PropertiesConf data) {
 
 		HttpURLConnection urlConnection = null;
 		StringBuffer jsonResponse = null;
@@ -75,35 +69,43 @@ public class ConnectXsa implements IConnectXsa {
 		String xml = "XML";
 		try {
 			// get Data XSA
-			List<PropertiesConf> dataList = getDataXsa();
-			if (dataList.size() > 0) {
-				for (PropertiesConf data : dataList) {
+			//List<PropertiesConf> dataList = getDataXsa();
+			//if (dataList.size() > 0) {
+			//	for (PropertiesConf data : dataList) {
 					// encode JSONObject params
-					payload.put("idTipoCfd", data.getXSA().getIdTipoCfd());
-					payload.put("idSucursal", data.getXSA().getIdSucursal());
+					if(dct.equals("TR")) {
+						payload.put("idTipoCfd", data.getXSA().getIdTipoCfd2());
+						payload.put("idSucursal", data.getXSA().getIdSucursal2());
+					}else {
+						payload.put("idTipoCfd", data.getXSA().getIdTipoCfd1());
+						payload.put("idSucursal", data.getXSA().getIdSucursal1());
+					}
+					
 					// get archivo fuente
 					StringBuffer stringData = new StringBuffer();
 					if (doc < 1) {
+						LOG.error("Error parametro Doc null");
 						throw new IOException("Error parametro Doc null");
 					}
-					LOG.info("Obteniendo parametros para generar el CFDI");
-					List<Detalle> listDetalle = detalleService.finByDoc(doc);
+					LOG.info("Obteniendo parametros para generar el CFDI del RFC: "+data.getRFC());
+					List<Detalle> listDetalle = detalleService.finByDoc(doc,dct,tax);
 					if (listDetalle.size() < 1 || listDetalle.isEmpty()) {
+						LOG.error("no se encontraron detalles");
 						throw new IOException("no se encontraron detalles");
 					}
 
 					for (Detalle DE : listDetalle) {
-						stringData.append(DE.getDLFE());
+						stringData.append(DE.getFEDLFE());
 						if (listDetalle.size() != count) {
 							stringData.append("\n");
 						}
 						count++;
-						nameFile = DE.getDCT() + "-" + DE.getDOC();
+						nameFile = DE.getFEDCT() + "-" + DE.getFEDOC();
 					}
 					payload.put("nombre", nameFile);
 					// get json data
 					payload.put("archivoFuente", stringData);
-					System.out.println(payload);
+					//System.out.println(payload);
 					byte[] payloadByte = payload.toString().getBytes("utf-8");
 					// get conexion api
 					URL urlApi = new URL("https://" + data.getXSA().getServer().concat(":" + portXsa)
@@ -142,28 +144,31 @@ public class ConnectXsa implements IConnectXsa {
 					urlConnection.disconnect();
 					if (responseCode != 200) {
 						response = decodeJsonErrors(jsonResponse.toString());
-						cabeceroService.updatEstatusByDoc(error, doc);
-						cabeceroService.updateDescByDoc(response, doc);
 						LOG.error("Error code " + responseCode + " message: " + response);
+						cabeceroService.updatEstatusByDoc(error, doc,dct,tax);
+						String respError="Error";
+						cabeceroService.updateDescByDoc(respError, doc,dct,tax);
 						throw new IOException("Error code " + responseCode + " message: " + response);
 					} else {
-						System.out.println(jsonResponse);
+						//LOG.info(jsonResponse);
 						ResponseSuccessful result = decodeJsonSuccessful(jsonResponse.toString());
 
-						cabeceroService.updatEstatusByDoc(successful, doc);
-						response = result.getSerie() + "-" + result.getFolio() + " Generado correctamente";
+						cabeceroService.updatEstatusByDoc(successful, doc,dct,tax);
+						response ="Generado correctamente";
 						LOG.info(result.getSerie() + "-" + result.getFolio() + " Generado correctamente con UUID: "
 								+ result.getUuid());
-						cabeceroService.updateDescByDoc(response, doc);
+						cabeceroService.updateDescByDoc(response, doc,dct,tax);
 
 						LOG.info("Iniciando descarga de archivos..");
 						cfdiGenerados.connectApiXsaDowloadCfdi(xml, result, doc, tax, data);
 						cfdiGenerados.connectApiXsaDowloadCfdi(pdf, result, doc, tax, data);
 					}
-				}
-			}else {
+				
+				/*}*/
+			/*}else {
+				LOG.error("Error no se encontraron datos del XSA conf");
 				throw new IOException("Error no se encontraron datos del XSA conf");
-			}
+			}*/
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -192,14 +197,17 @@ public class ConnectXsa implements IConnectXsa {
 		}
 		return response;
 	}
-
+	
+	@Override
 	public List<PropertiesConf> getDataXsa() {
 		PropertiesConf data = null;
 		JSONParser jsonParser = new JSONParser();
 		ObjectMapper objectMapper = new ObjectMapper();
 		List<PropertiesConf> propertiConf = new ArrayList<>();
 		try {
-			FileReader reader = new FileReader("C:\\XML_PDF\\conf.json");
+			Path path = Paths.get("");
+			String directoryJson = path.toAbsolutePath().toString();
+			FileReader reader = new FileReader(directoryJson+File.separator+"conf.json");
 			// Read JSON file
 			Object obj = jsonParser.parse(reader);
 			JSONObject jsonObj = new JSONObject(obj.toString());

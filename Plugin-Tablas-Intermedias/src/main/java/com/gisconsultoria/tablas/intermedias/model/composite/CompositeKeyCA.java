@@ -9,19 +9,19 @@ public class CompositeKeyCA implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String TAX;
+	private String FETAX;
 	
-	private int DOC;
+	private int FEDOC;
 	
-	private String DCT;
+	private String FEDCT;
 		
 	public CompositeKeyCA() {}
 
 
 	public CompositeKeyCA(String tAX, int dOC, String dCT) {
-		TAX = tAX;
-		DOC = dOC;
-		DCT = dCT;
+		FETAX = tAX;
+		FEDOC = dOC;
+		FEDCT = dCT;
 	}
 
 
@@ -29,9 +29,9 @@ public class CompositeKeyCA implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((DCT == null) ? 0 : DCT.hashCode());
-		result = prime * result + DOC;
-		result = prime * result + ((TAX == null) ? 0 : TAX.hashCode());
+		result = prime * result + ((FEDCT == null) ? 0 : FEDCT.hashCode());
+		result = prime * result + FEDOC;
+		result = prime * result + ((FETAX == null) ? 0 : FETAX.hashCode());
 		return result;
 	}
 
@@ -45,17 +45,17 @@ public class CompositeKeyCA implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		CompositeKeyCA other = (CompositeKeyCA) obj;
-		if (DCT == null) {
-			if (other.DCT != null)
+		if (FEDCT == null) {
+			if (other.FEDCT != null)
 				return false;
-		} else if (!DCT.equals(other.DCT))
+		} else if (!FEDCT.equals(other.FEDCT))
 			return false;
-		if (DOC != other.DOC)
+		if (FEDOC != other.FEDOC)
 			return false;
-		if (TAX == null) {
-			if (other.TAX != null)
+		if (FETAX == null) {
+			if (other.FETAX != null)
 				return false;
-		} else if (!TAX.equals(other.TAX))
+		} else if (!FETAX.equals(other.FETAX))
 			return false;
 		return true;
 	}

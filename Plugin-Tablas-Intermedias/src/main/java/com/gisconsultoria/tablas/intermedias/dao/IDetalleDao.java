@@ -10,6 +10,6 @@ import com.gisconsultoria.tablas.intermedias.model.composite.CompositeKeyDE;
 
 public interface IDetalleDao extends CrudRepository<Detalle, CompositeKeyDE> {
 
-	@Query("select d from Detalle d where d.DOC= ?1 ")
-	public List<Detalle> findByDoc(int doc);
+	@Query("select d from Detalle d where d.FEDOC= ?1 and d.FEDCT=?2 and d.FETAX=?3 ")
+	public List<Detalle> findByDoc(int doc,String dct,String tax);
 }

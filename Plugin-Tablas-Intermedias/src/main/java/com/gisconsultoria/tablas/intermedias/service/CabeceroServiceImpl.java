@@ -22,8 +22,8 @@ public class CabeceroServiceImpl implements ICabeceroService {
 	}
 	
 	@Override
-	public List<Cabecero> findCAByStatus(){
-		return cabeceroDao.findCAByStatus();
+	public List<Cabecero> findCAByStatus(String tax){
+		return cabeceroDao.findCAByStatus(tax);
 	}
 
 	@Override
@@ -34,15 +34,15 @@ public class CabeceroServiceImpl implements ICabeceroService {
 
 	@Override
 	@Transactional
-	public void updatEstatusByDoc(String estatus, int doc) {
-		cabeceroDao.updatEstatusByDoc(estatus, doc);
+	public void updatEstatusByDoc(String estatus, int doc,String dct,String tax) {
+		cabeceroDao.updatEstatusByDoc(estatus, doc, dct, tax);
 		
 	}
 
 	@Override
 	@Transactional
-	public void updateDescByDoc(String descripcion, int doc) {
-		cabeceroDao.updateDescByDoc(descripcion, doc);
+	public void updateDescByDoc(String descripcion, int doc,String dct,String tax) {
+		cabeceroDao.updateDescByDoc(descripcion, doc,dct,tax);
 	}
 	
 

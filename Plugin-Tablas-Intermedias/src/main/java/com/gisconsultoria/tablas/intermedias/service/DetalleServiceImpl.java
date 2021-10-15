@@ -16,7 +16,7 @@ public class DetalleServiceImpl implements IDetalleService {
 	
 
 	@Override
-	public List<Detalle> finByDoc(int doc) {
-		return detalleDao.findByDoc(doc);
+	public List<Detalle> finByDoc(int doc,String dct,String tax) {
+		return detalleDao.findByDoc(doc,dct,tax);
 	}
 }

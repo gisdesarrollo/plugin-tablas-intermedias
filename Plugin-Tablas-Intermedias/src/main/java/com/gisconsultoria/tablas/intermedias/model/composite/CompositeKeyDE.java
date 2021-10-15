@@ -9,31 +9,31 @@ public class CompositeKeyDE implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String TAX;
+	private String FETAX;
 	
-	private int DOC;
+	private int FEDOC;
 	
-	private String DCT;
+	private String FEDCT;
 	
-	private int LNID;
+	private int FELNID;
 	
 	public CompositeKeyDE() {}
 
 	public CompositeKeyDE(String tAX, int dOC, String dCT, int lNID) {
-		TAX = tAX;
-		DOC = dOC;
-		DCT = dCT;
-		LNID = lNID;
+		FETAX = tAX;
+		FEDOC = dOC;
+		FEDCT = dCT;
+		FELNID = lNID;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((DCT == null) ? 0 : DCT.hashCode());
-		result = prime * result + DOC;
-		result = prime * result + LNID;
-		result = prime * result + ((TAX == null) ? 0 : TAX.hashCode());
+		result = prime * result + ((FEDCT == null) ? 0 : FEDCT.hashCode());
+		result = prime * result + FEDOC;
+		result = prime * result + FELNID;
+		result = prime * result + ((FETAX == null) ? 0 : FETAX.hashCode());
 		return result;
 	}
 
@@ -46,19 +46,19 @@ public class CompositeKeyDE implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		CompositeKeyDE other = (CompositeKeyDE) obj;
-		if (DCT == null) {
-			if (other.DCT != null)
+		if (FEDCT == null) {
+			if (other.FEDCT != null)
 				return false;
-		} else if (!DCT.equals(other.DCT))
+		} else if (!FEDCT.equals(other.FEDCT))
 			return false;
-		if (DOC != other.DOC)
+		if (FEDOC != other.FEDOC)
 			return false;
-		if (LNID != other.LNID)
+		if (FELNID != other.FELNID)
 			return false;
-		if (TAX == null) {
-			if (other.TAX != null)
+		if (FETAX == null) {
+			if (other.FETAX != null)
 				return false;
-		} else if (!TAX.equals(other.TAX))
+		} else if (!FETAX.equals(other.FETAX))
 			return false;
 		return true;
 	}
