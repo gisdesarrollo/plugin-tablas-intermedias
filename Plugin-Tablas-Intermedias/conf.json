@@ -1,0 +1,46 @@
+{
+  "DBconnection": {
+        "server": "probiomed.ct0nzair0x3l.us-east-1.rds.amazonaws.com",
+        "port": "1433",
+        "user": "admin",
+        "password": "Gisconsul+01",
+        "DBname": "probiomed",
+        "TableName": {
+          "CA": "FE55421CA",
+          "DE": "FE55421DE",
+          "CN": "FE55421CN"
+        }
+      },
+  "conf": [
+    {
+      "RFC": "DAL050601L35",
+      "XSA": {
+        "server": "canal2.xsa.com.mx",
+        "key": "e78b17aa-c9e8-46bb-9bb6-6e3a9a599133",
+        "idTipoCfd1": "ba8e43f7e559ca906770c54dce2d3186",
+        "idSucursal1": "4e2f3ffcf8c9e6ca5d8c961b4a1b615c",
+		"idTipoCfd2": "7e37269a91505966fddbb8196db68b8d",
+		"idSucursal2": "40aec84a3811b3d1be3d2cd9763dcc9f"
+      },
+      "Operacion": {
+        "Descarga": true,
+        "PathDescarga": "/home/descargas/CFDi"
+      }
+    },
+    {
+      "RFC": "PDO010101JKY",
+      "XSA": {
+        "server": "canal2.xsa.com.mx",
+        "key": "b2277bd0fc15f66a2c4e191ea517510c",
+        "idTipoCfd1": "b2277bd0fc15f66a2c4e191ea517510c",
+        "idSucursal1": "b2277bd0fc15f66a2c4e191ea517510c",
+		"idTipoCfd2": "",
+		"idSucursal2": ""
+      },
+      "Operacion": {
+        "Descarga": true,
+        "PathDescarga": "/home/descargas/CFDi"
+      }
+    }
+  ]
+}
